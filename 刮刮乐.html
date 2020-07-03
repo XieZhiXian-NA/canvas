@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body{
+          margin: 0;
+          overflow: hidden;
+      }
+      
+      #cm{
+          position: absolute;
+          left: 0;
+          top: 0;
+          /* background-color: antiquewhite; */
+      }
+    </style>
+</head>
+<body>
+    <canvas id="cb"></canvas>
+    <canvas id="cm"></canvas>
+    <script type="module">
+        import ImgLoader from './ImgLoader.js'
+        import ImgRect from './ImgRect.js'
+
+        const [width,height] = [window.innerWidth,window.innerHeight];
+
+        const cb = document.getElementById('cb')
+        cb.width = width;
+        cb.height = height;
+        const ctxB = cb.getContext('2d');
+
+        const cm = document.getElementById('cm');
+        cm.width =width;
+        cm.height = height;
+        const ctxM = cm.getContext('2d');
+
+        const imgB = new Image();
+        imgB.src = './ggl-back.png';
+        const imgM = new Image();
+        imgM.src = './ggl-mask.png';
+        const imgPos = {x:100,y:100};
+        //两个图像加载完成后，绘图
+        ImgLoader.onload([imgM,imgB],loadFn);
+        function loadFn(){
+            // 底图rectB
+             const rectB = new ImgRect(imgB,imgPos);
+             rectB.draw(ctxB);
+            // 遮罩图rectM
+            const rectM = new ImgRect(imgM,imgPos);
+            rectM.draw(ctxM)
+        }
+       class Line{
+           constructor(ctx){
+               this.ctx = ctx;
+           }
+           moveTo(x,y){
+            const {ctx} = this;
+            ctx.save();
+            ctx.lineWidth = 10;
+            ctxM.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+           }
+           lineTo(x,y){
+               const {ctx} = this;
+               ctx.lineTo(x,y);
+               ctx.stroke()
+           }
+           end(){
+            const {ctx} = this;
+            ctx.restore();
+           }
+       }
+       const line = new Line(ctxM);
+       // 监听鼠标按下事件
+       cm.addEventListener('mousedown',function(event){
+           // 如果是左键按下，设置全局合成，destination-out 只显示a-后续画的图
+           if(event.buttons === 1){
+             const {x,y} = getMousePos(cm,event);
+             line.moveTo(x,y);
+           }
+       })
+       cm.addEventListener('mousemove',function(event){
+           // 如果左键处于按下状态，设置下一个点 lineTo(x,y)
+           if(event.buttons === 1){
+               const {x,y} = getMousePos(cm,event);
+               line.lineTo(x,y);
+           }
+       })
+       cm.addEventListener('mouseup',function(event){
+           line.end();
+       })
+
+       function getMousePos(canvas,event){
+           // 获取鼠标在窗口中的位置
+           const {clientX,clientY} = event;
+           // 获取canvas的边界
+           const {top,left} = canvas.getBoundingClientRect();
+           // 获取鼠标在画布中的位置
+           const x = clientX-left;
+           const y = clientY-top;
+           return {x,y}
+       }
+    </script>
+</body>
+</html>

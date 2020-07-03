@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        #canvas{
+            /* background-color: antiquewhite; */
+            margin-top: 30px;
+            margin-left: 50px;
+            background-color:antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas">
+        <p>该浏览器不支持canvas画布，请升级浏览器至最新版本!</p>
+    </canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 800;
+        const step = 10;
+        draw('rgba(0,0,0,.2)',step,step);
+        function draw(color,stepX,stepY){
+            const {width,height} = canvas;
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 0.5;
+            ctx.clearRect(0,0,width,height);
+            for(let i = stepX+0.5;i<width;i+=stepX){
+                ctx.beginPath();
+                ctx.moveTo(i,0);
+                ctx.lineTo(i,height);
+                ctx.stroke();
+            }
+            for(let j = stepY+0.5;j<height;j+=stepY){
+                ctx.beginPath();
+                ctx.moveTo(0,j);
+                ctx.lineTo(width,j);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+        const arr=[
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+            
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+
+
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+
+
+            2,2,2,2,2,2,2,2,2,2,
+            0,0,0,0,0,0,0,0,0,0,
+            1,1,1,1,1,1,1,1,1,1,
+            0,0,0,0,0,0,0,0,0,0,
+            4,4,4,4,4,4,4,4,4,4,
+            0,3,0,3,0,3,0,3,0,3,
+            0,0,0,0,0,0,0,0,0,0,
+            3,3,3,3,3,3,3,3,3,3,
+            
+            ]
+        
+        drawRect(arr);
+        function drawRect(arr){
+            const {width,height} = canvas;
+            const colors = { 
+                0:'#fff',
+                1:'yellow',
+                2:'green',
+                3:'blue',
+                4:'#000'
+            }
+            let index = 0;
+            for(let y = 0;y<height;y+=step){
+            for(let x =0;x<width;x+=step){
+                //let index = (y*width+x)*4
+                let item = arr[index++];
+                ctx.save();
+                ctx.fillStyle = colors[item];
+                ctx.fillRect(x,y,step-1,step-1);
+                ctx.restore();
+            }
+        }
+        }
+        
+
+        class Ball{
+            constructor(r,color="#fff"){
+                this.color = color;
+                this.r = r;
+                this.x = 0;
+                this.y = 0
+            }
+            draw(ctx){
+                ctx.save();
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        const points = [
+            {x:100,y:400},
+            {x:120,y:350},
+            {x:150,y:320},
+            {x:180,y:260},
+            {x:220,y:290},
+            {x:240,y:400},
+            {x:260,y:420},
+            {x:300,y:600},
+        ] 
+        var paths = calcWaypoints(points);
+        let ball = new Ball(2);
+        ball.x = paths[0].x;
+        ball.y = paths[0].y;
+        ball.draw(ctx);
+        
+        var flag = true;
+        function drawPath(ctx,{x,y}){
+            console.log(x,y)
+            if(flag){
+                ctx.beginPath();
+                ctx.moveTo(x,y);
+            }
+            ctx.lineTo(x,y);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+            flag = false;
+           
+        }
+
+         let v = 0.03;
+         let time = new Date();
+         function animate({x,y}){   
+            //  const now = new Date();
+            //  const diff = now-time;
+            //  time = now;
+            //  let stepX = diff*v;
+            //  let stepY = diff*v
+            ball.x = x;
+            ball.y = y;
+             
+         }
+
+
+        let index = 0; 
+        render();
+        function render(){
+            if(index<paths.length){
+                ctx.clearRect(0,0,800,800);
+                draw('rgba(0,0,0,.2)',step,step);
+                drawRect(arr);
+                animate(paths[index++]);
+                ball.draw(ctx);
+                drawPath(ctx,paths[index++]);
+                //var rid = requestAnimationFrame(render);
+                requestAnimationFrame(render);
+            }
+            // else{
+            //     cancelAnimationFrame(rid);
+            // }
+            
+        }
+       
+
+function calcWaypoints(vertices) {
+    var waypoints = [];
+    for (var i = 1; i < vertices.length; i++) {
+        var pt0 = vertices[i - 1];
+        var pt1 = vertices[i];
+        var dx = pt1.x - pt0.x;
+        var dy = pt1.y - pt0.y;
+        for (var j = 0; j < 100; j++) {
+            var x = pt0.x + dx * j / 100;
+            var y = pt0.y + dy * j / 100;
+            waypoints.push({
+                x: x,
+                y: y
+            });
+        }
+    }
+    return (waypoints);
+}
+    </script>
+</body>
+</html>

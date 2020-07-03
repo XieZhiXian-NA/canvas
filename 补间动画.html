@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./Tween.js"></script>
+    <style>
+        #canvas{
+            background-color: bisque;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="900" ></canvas>
+    <script>
+         const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+        const {width,height} = canvas
+        class Ball{
+             constructor(r,color='#000'){
+               this.color = color;
+               this.r = r;
+               this.x = 0;
+               this.y = 0;
+             }
+             draw(ctx){
+                 ctx.save();
+                 ctx.beginPath();
+                 ctx.fillStyle = this.color;
+                 ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+                 ctx.fill();
+                 ctx.restore();
+             }
+        }
+        let ball = new Ball(15);
+        ball.x = width/2;
+        ball.y = 50;
+        ball.draw(ctx);
+         
+        //实例化Tween对象，为其添加目标对象
+        const w = new TWEEN.Tween(ball)
+
+        //设置目标对象一段时间后的状态to({key:val},)
+    </script>
+</body>
+</html>

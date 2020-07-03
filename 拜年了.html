@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         body{
+             margin: 0;
+             overflow: hidden;
+         }
+         #audio{
+             position: absolute;
+             left: 20px;
+             bottom: 20px;
+             opacity: 0;
+             transition: opacity 2s;
+             z-index:20;
+         }
+         #audio:hover{
+            opacity: 90%;
+        }
+        #vid{
+            position:absolute;
+            visibility: hidden;
+        }
+        #imgL{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('./imgL.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: left;
+        }
+        #imgR{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('./imgR.png');
+            background-size: cover;
+            background-position: right;
+        }
+        #canvas{
+           background-image: url('./back.jpg');
+           background-size: cover;
+           background-position: center;
+        }
+    </style>
+</head>
+<body>
+  <audio id="audio" controls loop autoplay>
+     <source src="./year.mp3" type="audio/mpeg">
+  </audio>
+  <video id="vid" src="./firework.mp4" autoplay loop muted></video>
+  <div id="imgL"></div>
+  <div id="imgR"></div>
+  <canvas id="canvas"></canvas>
+  <script src="./Tween.js"></script>
+  <script>
+      const [width,height] = [window.innerWidth,window.innerHeight];
+      const vid = document.getElementById('vid');
+      const canvas = document.getElementById('canvas');
+      canvas.height=height;
+      canvas.width=width;
+      const ctx = canvas.getContext('2d');
+
+      //图形源
+      const imgC = new Image();
+      imgC.src = "./cloud.png";
+      const clouds = [
+          {pos:{x:width,y:height-350},scale:0.6},
+          {pos:{x:width*0.3,y:height-200},scale:0.6},
+          {pos:{x:width+200,y:height-330},scale:0.7},
+          {pos:{x:width-200,y:height-220},scale:0.8},
+          {pos:{x:width-400,y:height-320},scale:1},
+          {pos:{x:width*0.1,y:height-310},scale:1},
+      ]
+      const vx = 0.02;
+      let time = new Date();
+      vid.addEventListener('play',function(){
+          render()
+      })
+        
+      function draw(){
+          ctx.save();
+          const [tx,ty] = [(width-920)/2,(height-920)/2];
+          ctx.font = 'bold 270px Arial';
+          ctx.textBaseline='top';
+          
+          ctx.save();
+          ctx.translate(tx,ty);
+          ctx.fillText('拜年啦！',0,0);
+          //显示交集
+          ctx.globalCompositeOperation = 'source-in';
+          ctx.drawImage(vid,0,-180,920,540)
+          ctx.restore();
+
+          ctx.save();
+          ctx.translate(tx,ty);
+          ctx.shadowColor = 'rgba(0,0,0,.6)';
+          ctx.shadowOffsetY = 2;
+          ctx.shadowBlur = 4;
+          const pt = ctx.createLinearGradient(0,250,0,0);
+          pt.addColorStop(0,'#f7d495');
+          pt.addColorStop(0.53,'#cc904f');
+          pt.addColorStop(0.56,'#fbe1b9');
+          pt.addColorStop(0.64,'#f5d192');
+          pt.addColorStop(1,'#ce9555');
+          ctx.strokeStyle = pt;
+          ctx.lineWidth = 6;
+          ctx.strokeText('拜年啦！',0,0);
+          ctx.restore();
+          
+          clouds.forEach(item=>{
+              const {pos,scale} = item;
+              ctx.drawImage(imgC,pos.x,pos.y,imgC.width*scale,imgC.height*scale);
+              if(pos.x<-400){
+                  pos.x = width;
+              }
+          })
+
+          ctx.restore()
+      }
+
+      function render(){
+          const now = new Date();
+          const diff = now-time;
+          time = now;
+          //匀速
+          const dist = vx*diff;
+          clouds.forEach(cloud=>{
+              cloud.pos.x-=dist*cloud.scale;
+          })
+        ctx.clearRect(0,0,width,height);
+        draw();
+        requestAnimationFrame(render);
+      }
+  </script>
+    
+</body>
+</html>

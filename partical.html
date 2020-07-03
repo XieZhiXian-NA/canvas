@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #canvas{
+           background-color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="1300" height="800"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+  
+        const {width,height} = canvas;
+        const partSize = 24;
+        const edge = {left:0,right:width,bottom:height-50};
+        class Partical{
+            constructor(width,height){
+               this.width = width
+               this.height = height
+               this.pos = {x:0,y:0}
+               //粒子的状态为0 坠落
+               this.state = 1
+               this.parent = null;
+               this.vx = this.getVx();
+               this.vy = 0.002;
+               //重力
+               this.gravity = 0.03;
+               //弹力
+               this.bounce = -0.85;
+            }
+            getVx(){ 
+                //vx的取值范围是[-0.5,0.5]
+                //但不能再[-0.15,0.15]之间
+
+               let vx = Math.random()*1-0.5
+               if(Math.abs(vx)<0.15){
+                   return this.getVx();
+               }
+               return vx; 
+            }
+            //更新数据 
+            update(diff){
+              const {state,width,height,pos,gravity,bounce} = this;
+              const {left,right,bottom} = edge;
+              //粒子状态为坠落状态
+              if(!state){
+                 //让粒子坠落
+                 this.vy+=gravity;
+                 pos.x+=this.vx*diff;
+                 pos.y+=this.vy*diff;
+                 //底部碰撞
+                 if(pos.y+height > bottom){
+                     pos.y = bottom-height;
+                     this.vy*=bounce;
+                 }
+                 //左右边界超出检测
+                 //超出，从父对象的粒子库中删除
+                 if(pos.x+width <left || pos.x>right){
+                     this.parent.remove(this)
+                 }
+
+              }
+            }
+            draw(ctx){
+                const {pos:{x,y},width,height}  = this;
+                ctx.save()
+                ctx.fillRect(x,y,width,height)
+                ctx.restore()
+            }
+       
+        }
+
+        class Gun{
+            constructor(width,height){
+                this.width = width;
+                this.height = height;
+                this.pos = {x:0,y:0 };
+                //1：粒子发射器的枪膛中有粒子
+                this._state = 0;
+                this.children = [];
+            }   
+            get state()
+            {
+                return this._state
+            }
+            set state(val){
+              if(this._state !== val){
+                  //val = 1 有粒子
+                  if(val){
+                      this.createParticle()
+                  }else{
+                    // 没有粒子
+                    this.children[0].state = 0
+                  }
+                  this._state = val
+              }
+            }
+            //新建粒子
+            createParticle(){
+                const {pos:{x,y},width,height,children} = this;
+                const part = new Partical(width,height);
+                part.pos = {x,y};
+                part.parent = this;
+                children.unshift(part)
+            }
+            remove(ele){
+                const {children} = this;
+                const index = children.indexOf(ele);
+                if(index!==-1){
+                    children.splice(index,1)
+                }
+            }
+            update(diff){
+                this.children.forEach(ele=>{
+                    //更新粒子的位置数据
+                    ele.update(diff)
+                })
+            }
+            drawStroke(ctx){
+                const {pos:{x,y},width,height} = this;
+                ctx.save();
+                ctx.strokeStyle = '#aaa';
+                ctx.strokeRect(x,y,width,height);
+                ctx.restore();
+
+            }
+        }
+        const gun = new Gun(partSize,partSize);
+        gun.pos.x = width/2-80;
+        gun.pos.y = 50;
+        gun.state = 1
+        // setInterval(()=>{
+        //     gun.state = Math.round(Math.random())
+        // },500)
+        //计时器
+        let time = new Date()
+        //渲染
+        render()
+        function render(){
+            //获取时间差
+            const diff = updateTime();
+            gun.update(diff);
+            ctx.clearRect(0,0,width,height);
+            gun.drawStroke(ctx);
+            gun.children.forEach(ele=>{
+                ele.draw(ctx);
+            })
+            requestAnimationFrame(render)
+        }
+        function updateTime(){
+            const now  = new Date();
+            const diff = now-time;
+            time = now;
+            return diff;
+        }
+    </script>
+</body>
+</html>

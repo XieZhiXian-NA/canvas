@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #canvas{
+            background-color: antiquewhite;
+
+        }
+    </style>
+</head>
+<body>
+    <video id='vid' controls autoplay loop muted>
+       <source src = './move.mp4' type="video/mp4">
+    </video>
+    <canvas id="canvas" width="800" height="900">
+    </canvas>
+    <!-- <script>
+        const canvas = document.getElementById('canvas')
+        // 获取画笔
+        const ctx = canvas.getContext('2d')
+       // x,y,width,heigth
+        ctx.fillStyle = 'red'
+        ctx.lineWidth = 10
+        ctx.strokeStyle = 'yellow'
+        //ctx.fillRect(50,50,200,300)
+        ctx.strokeRect(50,50,200,300)
+        //ctx.clearRect(50,50,200,300)
+    </script> -->
+    <script>
+        // const canvas = document.getElementById('canvas')
+        // // 获取画笔
+        // const ctx = canvas.getContext('2d')
+
+        // //直线
+        // // ctx.lineWidth = 10
+        // // ctx.strokeStyle = 'red'
+        // // ctx.beginPath()
+        // // //移动到起始点
+        // // ctx.moveTo(50,50)
+        // // // 形状
+        // // ctx.lineTo(200,50)
+        
+        // // ctx.closePath()
+        // // ctx.moveTo(210,60)
+        // // ctx.lineTo(300,100)
+        // // // 绘制
+        // // ctx.stroke()
+
+        // // 圆弧
+        // // ctx.beginPath()
+        // // // 子路径的第一个起始点 为x+半径
+        // // ctx.arc(200,200,100,0,Math.PI*3/2)
+        
+        // // // 独立的两个子路径 
+        // // //ctx.moveTo(300,300)// 起始点移动到(圆心的x+半径，圆心y)
+        // // ctx.arc(200,300,100,0,Math.PI*3/2)
+        // // ctx.stroke()
+
+
+        // // 切线圆弧
+        // // ctx.beginPath()
+        // // ctx.moveTo(50,50)
+        // // ctx.lineTo(400,50)
+        // // ctx.lineTo(400,300)
+        
+        // // ctx.moveTo(50,50)
+        // // //ctx.arcTo(400,50,400,300,100)
+        // // //ctx.quadraticCurveTo(400,50,400,300)
+        // // //ctx.bezierCurveTo(400,50,400,300,600,300)
+        // // ctx.stroke()
+
+
+
+        // // 路径矩形 遵循路径规则
+        // ctx.beginPath()
+        // ctx.rect(50,50,400,200)
+        // ctx.beginPath()
+        // ctx.rect(50,300,400,200)
+        // ctx.fill()
+    </script>
+
+    <script>
+        // 画取机器人
+        // const canvas = document.getElementById('canvas');
+        // // 获取画笔
+        // const ctx = canvas.getContext('2d');
+
+        // ctx.fillStyle = 'red';
+
+        // ctx.lineWidth = 40;
+
+        // ctx.fillRect(50,250,400,200);
+
+        // ctx.strokeRect(50,250,400,200);
+
+        // ctx.clearRect(50,300,400,60);
+
+        // ctx.beginPath()
+        // ctx.moveTo(150,400)
+
+        // // 嘴巴
+        // ctx.lineTo(350,400)
+        // ctx.stroke()
+
+        // // 眼睛
+        // //ctx.moveTo(160,330); 也可以使用路径集合 moveTo()分割子路径
+        // ctx.beginPath() // 直接创建一个新路径
+        // ctx.arc(150,330,20,0,Math.PI*2)
+        // ctx.moveTo(330,340);
+        // ctx.arc(350,340,20,Math.PI,0)
+        // ctx.fill()
+
+        // ctx.beginPath()
+        // ctx.moveTo(50,50) 
+        // ctx.bezierCurveTo(150,50,150,250,250,250);
+        // ctx.moveTo(450,50) 
+        // ctx.bezierCurveTo(350,50,350,250,250,250);
+        // ctx.stroke()
+    </script>
+
+    <script>
+        
+        const canvas = document.getElementById('canvas');
+        // 获取画笔
+        const ctx = canvas.getContext('2d');
+         
+        //ctx.lineWidth = 40
+        // 画水滴
+        // ctx.translate(300,300)
+        
+        // ctx.beginPath()
+        // ctx.moveTo(0,0)
+        // ctx.quadraticCurveTo(50,-50,50,-100)
+        // ctx.arc(0,-100,50,0,Math.PI,true)
+        // ctx.quadraticCurveTo(-50,-50,0,0)
+        // ctx.stroke()
+
+        // 线性渐变
+        // 定义渐变对象，定义渐变的区域
+        // const gradient = ctx.createLinearGradient(50,50,400,400)
+        // gradient.addColorStop(0,'red')
+        // gradient.addColorStop(0.5,'blue')
+        // gradient.addColorStop(1,'yellow')
+        // ctx.fillStyle = gradient
+        // ctx.fillRect(50,50,350,350)
+
+        // 径向渐变
+        // const gr = ctx.createRadialGradient(200,200,50,300,300,100)
+        // gr.addColorStop(0,'red');
+        // gr.addColorStop(0.5,'yellow');
+        // gr.addColorStop(1,'blue');
+        // ctx.fillStyle = gr
+        // ctx.fillRect(0,0,400,400)
+
+        //纹理
+        // const image = new Image()
+        // image.src = './floor.jpg'
+        // image.onload = ()=>{
+        //     const pt = ctx.createPattern(image,'repeat-x')
+        //     ctx.fillStyle = pt
+        //     ctx.fillRect(0,0,canvas.width,canvas.height)
+        // } 
+
+    //     ctx.beginPath()
+    //     ctx.moveTo(50,50)
+    //     ctx.lineTo(400,50)
+    //     ctx.lineTo(300,150)
+    //    // ctx.lineJoin = 'round'
+    //     ctx.miterLimit = 1
+    //     ctx.stroke()
+        // ctx.lineWidth = 2
+        // ctx.beginPath()
+        // ctx.moveTo(50,50)
+        // ctx.lineTo(400,50)
+        // ctx.setLineDash([10,20])
+        // //ctx.lineDashOffset = 
+        // ctx.stroke()
+        
+
+    // ctx.beginPath();
+    // ctx.arc(300,200,100,0,Math.PI*2)
+    // ctx.fillStyle = '#93abff'
+    // ctx.shadowColor = '#000'
+    // //ctx.shadowOffsetY = 100
+    // ctx.shadowBlur = 10
+    // ctx.fill()
+
+
+    //文字属性
+    // ctx.font = 'bold 100px Arial'
+    // ctx.fillText('canvas',100,100)
+
+    //布艺文字
+    // ctx.font = 'bold 200px Arial'
+    // ctx.shadowColor = 'rgba(0,0,0,0.6)'
+    // ctx.shadowOffsetY = 2
+    // ctx.shadowBlur = 4
+
+    // ctx.fillStyle = '#a76921'
+    // ctx.fillText('canvas',50,150)
+    // ctx.strokeStyle = '#f0d5ac'
+    // ctx.lineWidth = 9
+    // ctx.strokeText('canvas',50,150)
+
+    // //虚线描边
+    // ctx.strokeStyle = '#333'
+    // ctx.lineWidth = 1
+    // ctx.setLineDash([5,3])
+    // ctx.strokeText('canvas',50,150)
+   
+    // 图片
+    // const img = new  Image()
+    // img.src = './floor.jpg'
+    // img.onload = function(){
+    //     const {width,height} = img
+    //     //图片+位移
+    //     //ctx.drawImage(img,100,50)
+    //     //ctx.drawImage(img,0,0,width/2,height/2) 
+    //     ctx.drawImage(img,width/2,0,width,height,0,0,width,height) 
+    // }
+
+    //音频
+    // const vid = document.getElementById('vid')
+    // let interval = null
+    // vid.addEventListener('play',function(){
+    //     // 当视频播放时 将其绘制在canvas帆布上面
+    //     interval = setInterval(function(){
+    //        ctx.drawImage(vid,0,0)
+    //     },40)
+    //     // 40ms  25帧每秒-->1000ms--25帧 40ms一帧
+    // })
+    // vid.addEventListener('pause',function(){
+    //     clearInterval(interval)
+    // })
+
+
+    //雪碧图裁剪图像
+    //小图的数量
+    // const len = 8
+    // //小图大小
+    // const size = 256
+    // //当前帧
+    // let fm = 0
+    // const img = new Image()
+    // img.src = './bomb.jpg'
+    // img.onload = draw()
+    // function draw(){
+    //     ctx.drawImage(img,fm*size,0,size,size,0,0,size,size)
+    //     fm = fm===len?0: fm+1
+    // }
+    //let timer = setInterval(draw,100)
+
+
+    // 图像的像素点
+     //const [width,height] = [400,200]
+    // const imgDt = new ImageData(width,height)
+    // imgDt.data.forEach((ele,ind)=>{
+    //     imgDt.data[ind] = 100
+    // })
+    // ctx.putImageData(imgDt,0,0)
+    // console.log(imgDt)
+
+    // const imgDt = ctx.getImageData(0,0,1,1)
+    // console.log(imgDt)
+
+    // const img = new Image()
+    // img.src = './dog.jpg'
+    // img.onload = function(){
+    //     const {width,height} = img
+    //     ctx.drawImage(img,0,0)
+    //     const imgDt = ctx.getImageData(0,0,width,height)
+    //     const data = imgDt.data
+        
+    //     // //根据行列遍历 先遍历列 知道每个像素的坐标
+    //     // for(let y = 0;y< height;y++){
+    //     //     for(let x = 0;x<width;x++){
+    //     //         let index = (y*width+x)*4
+    //     //         let r = data[index]
+    //     //         let g = data[index+1]
+    //     //         let b = data[index+2]
+    //     //         let a = data[index+3]
+    //     //         console.log(y,x) //对应在图片中的二维坐标
+    //     //     }
+    //     // }
+
+    //     for(let i =0;i<data.length;i+=4){
+    //         data[i] = 0
+    //     }
+    //     //ctx.putImageData(imgDt,0,height,100,100,200,200)
+    //     ctx.putImageData(imgDt,0,height)
+    // }
+    
+    // 彩色图片变为灰度图
+    // const img = new Image()
+    // img.src = './river.jpg' 
+    // img.onload = draw
+    // function draw(){
+    //     const {width,height} = img
+    //     ctx.drawImage(img,0,0)
+    //     const imgDt = ctx.getImageData(0,0,width,height)
+    //     const data = imgDt.data
+    //     for(let i =0;i<data.length;i+=4){
+    //         const [r,g,b] = [
+    //             data[i],
+    //             data[i+1],
+    //             data[i+2]
+    //         ]
+    //         const lm = 0.299*r+0.587*g+0.114*b
+    //         data[i] = lm;
+    //         data[i+1] = lm
+    //         data[i+2] = lm
+    //     }
+
+    //     ctx.putImageData(imgDt,0,height)
+    // }
+
+    // 马赛克
+    // const img = new Image()
+    // img.src = './river.jpg' 
+    // img.onload = draw
+    // let size = 3
+    // function draw(){
+    //     const {width,height} = img
+    //     ctx.drawImage(img,0,0)
+    //     const imgDt = ctx.getImageData(0,0,width,height)
+    //     const data = imgDt.data
+    //     for(let y =0;y<height;y+=size){
+    //         for(let x = 0;x<width;x+=size){
+    //             let index = (y*width+x)*4
+    //             let [r,g,b] = [ 
+    //                 data[index],
+    //                 data[index+1],
+    //                 data[index+2]
+    //             ]
+    //             ctx.fillStyle = `rgb(${r},${g},${b})`
+    //             ctx.fillRect(x,y,size,size)
+    //         }
+    //     }
+    // }
+ 
+
+ // 钟表
+ const [redA,redB,yellow] = ['#db655c','#d63d46','#9f8d7d'];
+ const c = Math.PI*2
+
+ const [width,height] = [800,900];
+
+  (function render(){
+    ctx.clearRect(0,0,width,height);
+      //绘图
+      draw(); 
+      requestAnimationFrame(render);
+  })();
+
+ 
+
+ function draw(){
+    ctx.save();
+
+    ctx.translate(width/2,height/2);
+    ctx.rotate(-Math.PI/2);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(0,0,145,0,Math.PI*2);
+    ctx.strokeStyle = redA;
+    ctx.lineWidth = 20;
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.strokeStyle = redB;
+    ctx.lineWidth = 9
+    ctx.arc(0,0,155,0,Math.PI*2)
+    ctx.stroke()
+    ctx.restore()
+
+    ctx.save()
+    for(let i = 0;i<4;i++){
+        ctx.beginPath()
+        ctx.moveTo(90,0)
+        ctx.lineTo(120,0)
+        ctx.lineWidth = 15
+        ctx.strokeStyle = redB
+        ctx.stroke()
+        ctx.rotate(-c/4)
+    }
+    ctx.restore()
+    
+    ctx.save()
+    for(let i = 0;i<12;i++){
+        if(i%3){
+           ctx.beginPath()
+            ctx.moveTo(90,0)
+            ctx.lineTo(120,0)
+            ctx.lineWidth = 6
+            ctx.strokeStyle = yellow
+            ctx.stroke() 
+        }
+        ctx.rotate(-c/12)
+    }
+    ctx.restore()
+
+    ctx.save()
+    for(let i = 0;i<60;i++){
+        if(i%5){
+            ctx.beginPath()
+            ctx.moveTo(118,0)
+            ctx.lineTo(120,0)
+            ctx.lineWidth = 3
+            ctx.strokeStyle = yellow
+            ctx.stroke()
+        }
+        ctx.rotate(c/60)
+    }
+    ctx.restore()
+
+
+    const [rh,rm,rs] = getRadian()
+    //时针
+    ctx.save()
+    ctx.rotate(rh)
+    ctx.beginPath()
+    ctx.moveTo(-20,0)
+    ctx.lineTo(65,0)
+    ctx.lineWidth = 9
+    ctx.strokeStyle = yellow
+    ctx.stroke()
+    ctx.restore()
+    //分针
+    ctx.save()
+    ctx.rotate(rm)
+    ctx.beginPath()
+    ctx.moveTo(-28,0)
+    ctx.lineTo(80,0)
+    ctx.lineWidth = 4
+    ctx.strokeStyle = yellow
+    ctx.stroke()
+    ctx.restore()
+    //秒针
+    ctx.save()
+    ctx.rotate(rs)
+    ctx.beginPath()
+    ctx.moveTo(-30,0)
+    ctx.lineTo(88,0)
+    ctx.lineWidth = 2
+    ctx.strokeStyle = redB
+    ctx.stroke()
+    ctx.restore()
+    // 圆弧
+    ctx.save()
+    ctx.beginPath()
+    ctx.arc(0,0,10,0,Math.PI*2)
+    ctx.fillStyle = redA
+    ctx.fill()
+    ctx.restore()
+    
+
+    ctx.restore()
+ }
+   
+function getRadian(){
+    const date = new Date();
+    let h = date.getHours();
+    if(h>12){h-=12}
+    let m = date.getMinutes();
+    let s = date.getSeconds();
+    //时针旋转的弧度
+    // c/12得到每一小时的弧度角
+    let hu = c/12 ;
+    // 得到每一分钟的弧度角
+    let mu = hu/60;
+    // 得到每一秒的弧度角
+    let su = mu/60;
+    const rh = hu*h + mu*m + su*s;
+    const rm = c*m/60 + c*s/60/60;
+    const rs = c*s/60;
+    return [rh,rm,rs]
+}
+    </script>
+</body>
+</html>
+
+

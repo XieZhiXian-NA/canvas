@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+        #canvas{
+            background-color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const [height,width] = [window.innerHeight,window.innerWidth];
+        canvas.height = height;
+        canvas.width = width;
+
+        const seriesBabel = ['T恤','夹克','护甲背心','迷彩服','防弹衣'];
+        const seresData = [11121,2425,6277,4253,7355];
+        
+        //y轴行数
+        let rowNum = 5;
+        // 柱状图的位置
+        let pos = {x:50,y:0};
+        //柱状图的宽高
+        const [outWidth,outHeight] = [750,600];
+        //柱状图内边距
+        const pad = 80;
+        //柱状图百分比类型的列边距
+        const colPerPad = 0.1
+        const markLen = 10;
+        const babelOffset = 8;
+        const itemColor = 'chocolate';
+
+        //绘图区宽高
+        const innerWidth=outWidth-pad*2;
+        const innerHeight=outHeight-pad*2;
+        //绘图区的顶部位置
+        const innerTop=pos.y+pad;
+        //绘图区的底部位置
+        const innerBottom=innerTop+innerHeight;
+        //绘图区的左侧位置
+        const innerLeft=pos.x+pad;
+        //绘图区的右侧位置
+        const innerRight=innerLeft+innerWidth;
+        //x 轴刻度的终点的y位置
+        const xMarkEndY=innerBottom+markLen;
+        //x 轴标签的y位置
+        const xBabelY=innerBottom+babelOffset;
+        //y 轴刻度的终点的x位置
+        const yMarkEndX=innerLeft-markLen;
+        //y 轴标签的x位置
+        const yBabelX=yMarkEndX-babelOffset;
+
+
+
+        //建立柱体 Rectangle
+        class Rectangle{
+            constructor(w,h,color='chocolate'){
+                this.width = w;
+                this.height = h;
+                this.color = color;
+                this.pos = {x:0,y:0};
+            }
+            draw(ctx){
+                const {width,height,color,pos:{x,y}} = this;
+                ctx.save();
+                ctx.fillStyle = color;
+                ctx.fillRect(x,y,width,height);
+                ctx.restore();
+            }
+        }
+        const item = new Rectangle(100,400);
+        item.pos = {x:100,y:100};
+        item.text = '34578';
+        item.draw(ctx);
+
+        //建立提示框Tip
+        class Tip{
+            constructor(text,pos,visible){
+                this.text = '';
+                this.pos = {x:0,y:0};
+                this.visible = false;
+            }
+            draw(ctx){
+                const {text,pos:{x,y},visible} = this;
+                ctx.save();
+                if(!visible) return;
+                ctx.font='36px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                //文字的宽度
+                const mt = ctx.measureText(text);
+                const rectW = mt.width+30;
+                const rectH = 60;
+                ctx.fillStyle = 'rgba(0,0,0,.7)'
+                ctx.fillRect(x,y,rectW,rectH);
+                const [tx,ty] = [
+                    rectW/2+x,
+                    rectH/2+y
+                ]
+                ctx.fillStyle='#fff';
+                ctx.fillText(text,tx,ty);
+                
+                ctx.restore();
+
+            }
+        }
+  
+         const tip = new Tip();
+
+        canvas.addEventListener('mousemove',mouseMoveFn);
+        function mouseMoveFn(event){
+          //获取鼠标在canvas中的位置
+          const mousePos = getMousePos(event);
+          if(containPoint(item,mousePos)){
+             tip.text = item.text;
+             tip.visible = true;
+             //让提示框跟着鼠标走
+             tip.pos = {
+                 x:mousePos.x+20,
+                 y:mousePos.y+20
+             };
+          }else{ 
+              tip.visible = false;
+          }
+          // 按需渲染 鼠标移入才渲染
+          render()
+        }
+         
+        render()
+        function render(){
+            //清理canvas画布
+            ctx.clearRect(0,0,width,height);
+            item.draw(ctx);
+            tip.draw(ctx);
+        }
+
+        function getMousePos(event){
+            const {clientX,clientY} = event;
+            const {top,left} = canvas.getBoundingClientRect();
+            const x = clientX-left;
+            const y = clientY-top;
+            return {x,y};
+        }
+        function containPoint(item,mousePos){
+            const {x,y} = mousePos;
+            const {pos,height,width} = item
+            const [t,b,l,r] = [
+                 y>pos.y,
+                 y<pos.y+height,
+                 x>pos.x,
+                 x<pos.x+width
+            ]
+            return t&&b&&l&&r;
+        }
+    </script>
+</body>
+</html>

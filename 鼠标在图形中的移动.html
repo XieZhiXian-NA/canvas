@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        #canvas{
+            background-color: antiquewhite;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" height="400" width="600"></canvas>
+    <script>
+        const canvas =document.getElementById('canvas')
+        const ctx = canvas.getContext('2d');
+
+        class Rectangle{
+            constructor(width=0,height=0,color='#000'){
+                this.width = width;
+                this.height = height;
+                this.color = color;
+                this.pos = {x:0,y:0};
+            }
+            draw(ctx){
+                const {pos:{x,y},width,height,color}=this;
+                ctx.save();
+                ctx.fillStyle = color;
+                ctx.fillRect(x,y,width,height);
+                ctx.restore();
+            }
+        }
+        const rect = new Rectangle(200,100);
+        rect.pos = {x:100,y:100};
+        
+        // 记录鼠标与图形的x,y之间的相对距离
+        let mouseSunObj = null;
+        //点击事件
+        canvas.addEventListener('mousedown',mouseDownFn);
+        //移动
+        canvas.addEventListener('mousemove',mouseMoveFn);
+        //鼠标抬起
+        canvas.addEventListener('mouseup',mouseUpFn);
+        function mouseDownFn (event){
+            //鼠标位置 
+            const mousePos = getMousePos(event);
+            // 图形包括鼠标点
+            if(containPoint(rect,mousePos)){
+                console.log('xx');
+                //鼠标位减图形位
+                mouseSunObj = {
+                    x:mousePos.x-rect.pos.x,
+                    y:mousePos.y-rect.pos.y
+                }
+            }
+        }
+         function mouseMoveFn(event){
+             const mousePos = getMousePos(event);
+             //鼠标选择了图形
+             if(mouseSunObj){
+                 //图形跟着鼠标移动 图形左上角坐标点与鼠标之间的是有一定距离的
+                 rect.pos = {
+                     x:mousePos.x-mouseSunObj.x,
+                     y:mousePos.y-mouseSunObj.y
+
+                    // x:mousePos.x,
+                    // y:mousePos.y
+                 }
+                 render();
+             }
+         }
+         function mouseUpFn(event){
+             // 鼠标抬起，取消选择
+             mouseSunObj = null;
+         }
+         //判断点是否在长方形图形中
+        function containPoint(obj,mousePos){
+         // 图形的位置尺寸
+         const {pos,width,height} = obj;
+         //鼠标的位置
+         const {x,y}= mousePos;
+
+         // 计算鼠标和图形上、下、左、右边界的关系
+         const [t,b,l,r] = [
+             y>pos.y,
+             y<pos.y+height,
+             x>pos.x,
+             x<pos.x+width
+         ]
+         let flag = t&&b&&l&&r;
+         //console.log(flag)
+         return flag;
+        }
+        function getMousePos(event){
+            //鼠标在窗口中的位置
+            const {clientX,clientY} = event;
+            //canvas相对于窗口的边界
+            const {top,left} = canvas.getBoundingClientRect();
+            // 鼠标在canvas中的位置
+            const [x,y] = [
+                clientX-left,
+                clientY-top
+            ];
+            return {x,y}
+         }
+        render()
+        function render(){
+             ctx.clearRect(0,0,canvas.width,canvas.height);
+             rect.draw(ctx)
+         }
+        //判断鼠标是否在圆形中
+        function containPointCircle(obj,mousePos){
+            const {pos,r} = obj;
+            const {x,y} = mousePos;
+            //鼠标点到圆心的x距离
+            const subX = x-pos.x
+            //鼠标点到圆心的y距离
+            const subY = y-pos.y
+            //鼠标点到圆心的距离与半径的关系
+            const len = Math.sqrt(subX*subX+subY*subY)
+            return len<r;
+        }
+    
+        // 判断点是否在扇形中
+        function containerSection(obj,mousePos){
+            //定义扇形弧度角时，将起始弧度与结束弧度都为设为正值
+            const {pos,r,startAngle,endAngle} = obj;
+            const {x,y} = mousePos;
+            const [subX,subY] = [x-pos.x,y-pos.y]
+            const len = Math.sqrt(subY*subY+subX*subX);
+            //点小于半径中
+            const bl = len<r;
+            //鼠标位-图形位的方向dir
+            //atan2返回(坐标点与圆心之间的线段)与x轴方向的夹角
+            const dir = Math.atan2(subY,subX);
+            //当y|x<0时，返回的是一个负值，为与起始，结束弧度做对比，要将+2π 得到正值
+            if(dir<0){ 
+                dir+=Math.PI*2
+            }
+            const b2 = dir>startAngle && dir<endAngle;
+            return b1&&b2
+        }
+    </script>
+</body>
+</html>

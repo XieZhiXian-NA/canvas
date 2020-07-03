@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const ctx = canvas.getContext('2d')
+        
+        //  ctx.beginPath();
+        //  ctx.moveTo(200,200)
+        //  ctx.arc(200,200,200,Math.PI/467c );
+        //  ctx.closePath();
+        //  ctx.fill()
+
+        //ctx.fillRect(0,0,400,200);
+        // 透明度合成
+        // ctx.save()
+        // ctx.globalAlpha = 0.5;
+        // ctx.fillStyle = 'red'
+        // ctx.fillRect(100,100,400,200);
+        // ctx.restore()
+        // ctx.fillRect(150,150,400,200);
+
+        // 路径裁剪
+        // ctx.beginPath()
+        // ctx.arc(300,300,200,0,Math.PI*2)
+        // ctx.stroke()
+        // ctx.clip()
+        // ctx.fillRect(0,0,400,200);
+        ;//ctx.closePath()
+        //ctx.fillRect(0,0,300,200);
+
+        // 全局合成
+        ctx.fillStyle = 'orange';
+        ctx.fillRect(100,100,200,200);
+
+
+        //设置合成属性
+        ctx.globalCompositeOperation = 'source-atop'
+        ctx.beginPath();
+        ctx.arc(300,300,100,0,Math.PI*2);
+        ctx.fillStyle = 'green';
+        ctx.fill()
+
+
+        
+    </script>
+</body>
+</html>
